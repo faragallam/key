@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr Faragalla's KEY Show</title>
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --bg: #0a0b1e;
+            --text: #ffffff;
+            --success: #00ff88;
+            --base-font: clamp(0.95rem, 1vw + 0.5rem, 1.15rem);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            font-size: var(--base-font);
+            line-height: 1.6;
+        }
+
+        /* Celebration Confetti */
+        .confetti {
+            position: fixed; width: 10px; height: 10px; top: -10px; z-index: 999;
+            animation: fall 3s linear forwards;
+        }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+
+        /* General Layout */
+        .page { display: none; padding: 60px 20px; min-height: 100vh; box-sizing: border-box; width: 100%; }
+        .active { display: flex; flex-direction: column; align-items: center; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .container { width: 100%; max-width: 900px; margin: 0 auto; }
+        .quiz-box { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid rgba(0, 242, 255, 0.2); backdrop-filter: blur(5px); }
+        
+        /* Home Page & Logo */
+        #home { justify-content: center; text-align: center; }
+        .logo { max-width: 200px; height: auto; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 0 20px var(--primary); }
+        
+        h1 {
+            font-size: clamp(2.5rem, 10vw, 4.5rem);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin: 10px 0;
+        }
+
+        .name-input-box { margin-bottom: 30px; }
+        .name-input-box input {
+            padding: 12px; font-size: 1.2rem; border-radius: 5px; border: 2px solid var(--primary);
+            background: #1a1b3a; color: white; text-align: center; width: 250px;
+        }
+
+        .btn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; width: 100%; max-width: 600px; }
+        
+        .futuristic-btn {
+            padding: 20px; background: rgba(0,0,0,0.3); border: 2px solid var(--primary);
+            color: var(--primary); font-weight: bold; cursor: pointer; transition: 0.3s;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+        .futuristic-btn:hover { background: var(--primary); color: var(--bg); box-shadow: 0 0 20px var(--primary); }
+
+        select, input[type="text"] {
+            background: #1a1b3a; color: white; border: 1px solid var(--primary);
+            padding: 8px; border-radius: 4px; margin: 5px 0;
+        }
+        .inline-select { display: inline-block; width: auto; min-width: 100px; margin: 0 5px; }
+
+        .ans-key { margin-top: 20px; padding: 20px; border-radius: 10px; background: rgba(0, 255, 136, 0.1); border: 1px solid var(--success); display: none; color: var(--success); }
+        .submit-btn { background: linear-gradient(45deg, var(--secondary), var(--primary)); color: white; border: none; padding: 18px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 30px; text-transform: uppercase; }
+
+        .back-home { position: fixed; top: 20px; left: 20px; color: var(--primary); background: none; border: 1px solid var(--primary); cursor: pointer; padding: 8px 15px; z-index: 100; }
+        
+        .split { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        @media (max-width: 768px) { .split { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <button class="back-home" onclick="showPage('home')">← EXIT</button>
+
+    <section id="home" class="page active">
+        <img src="key logo.jpg" alt="KEY Logo" class="logo">
+        <h1>Mr Faragalla's <br> KEY SHOW</h1>
+        
+        <div class="name-input-box">
+            <p>Enter your name to start, Hero:</p>
+            <input type="text" id="userName" placeholder="Your Name Here">
+        </div>
+
+        <div class="btn-grid">
+            <button class="futuristic-btn" onclick="showPage('reading')">1. Extreme Sports</button>
+            <button class="futuristic-btn" onclick="showPage('tenses')">2. Tense Master</button>
+            <button class="futuristic-btn" onclick="showPage('cloze')">3. Story Cloze</button>
+            <button class="futuristic-btn" onclick="showPage('listening')">4. Listening Lab</button>
+        </div>
+    </section>
+
+    <section id="reading" class="page">
+        <div class="container">
+            <h2 style="color:var(--primary)">Challenge 1: Extreme Sports</h2>
+            <div class="split">
+                <div class="quiz-box">
+                    <p>Extreme sports involve high speed and height. Young people often choose them because of the <b>thrill</b>. For example, skydiving lets you see the earth from high up, while free-climbing tests your focus on huge rocks without using safety ropes.</p>
+                    <p>Safety is vital. Professionals spend years training. You need helmets and pads. "Wingsuit Flying" is popular but dangerous because any error can be fatal.</p>
+                </div>
+                <div class="quiz-box">
+                    <p>1. Why choose extreme sports?<br>
+                    <select id="r1"><option>--</option><option>They are cheap</option><option>For the thrill</option><option>To play in teams</option></select></p>
+                    <p>2. Free-climbing means...<br>
+                    <select id="r2"><option>--</option><option>Using no ropes</option><option>Climbing for free</option><option>Climbing indoors</option></select></p>
+                    <p>3. Training takes...<br>
+                    <select id="r3"><option>--</option><option>A few days</option><option>Many years</option><option>No time</option></select></p>
+                    <p>4. Wingsuiting looks like...<br>
+                    <select id="r4"><option>--</option><option>A plane</option><option>A bird</option><option>A car</option></select></p>
+                    <p>5. Extreme sports are...<br>
+                    <select id="r5"><option>--</option><option>Getting boring</option><option>More popular</option><option>Illegal now</option></select></p>
+                    <p>6. Name a safety item: <input type="text" id="r_wh1"></p>
+                    <p>7. Why is wingsuiting risky? <input type="text" id="r_wh2"></p>
+                    <button class="submit-btn" onclick="finish('r')">Check Page 1</button>
+                    <div id="r-ans" class="ans-key"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tenses" class="page">
+        <div class="container">
+            <h2 style="color:var(--primary)">Challenge 2: Tense Master</h2>
+            <div class="quiz-box" id="t-list"></div>
+            <button class="submit-btn" onclick="checkTenses()">Check Page 2</button>
+            <div id="t-ans" class="ans-key"></div>
+        </div>
+    </section>
+
+    <section id="cloze" class="page">
+        <div class="container">
+            <h2 style="color:var(--primary)">Challenge 3: The Mountain Story</h2>
+            <div class="quiz-box">
+                <p>Last month, my family went on a long <select id="c1" class="inline-select"><option>--</option><option>trip</option><option>work</option><option>flight</option></select> to the mountains. We had to <select id="c2" class="inline-select"><option>--</option><option>buy</option><option>book</option><option>sell</option></select> a hotel room online. The <select id="c3" class="inline-select"><option>--</option><option>weather</option><option>season</option><option>time</option></select> was cold. My brother went <select id="c4" class="inline-select"><option>--</option><option>swimming</option><option>skiing</option><option>running</option></select> on the snow while I took a <select id="c5" class="inline-select"><option>--</option><option>walk</option><option>ride</option><option>bus</option></select> through the forest. We saw several <select id="c6" class="inline-select"><option>--</option><option>angry</option><option>wild</option><option>pets</option></select> animals. In the evening, we had a delicious <select id="c7" class="inline-select"><option>--</option><option>meal</option><option>snack</option><option>drink</option></select>. The food was <select id="c8" class="inline-select"><option>--</option><option>bad</option><option>tasty</option><option>salty</option></select>. It was an <select id="c9" class="inline-select"><option>--</option><option>exciting</option><option>ugly</option><option>easy</option></select> holiday and I hope to <select id="c10" class="inline-select"><option>--</option><option>stay</option><option>visit</option><option>find</option></select> again.</p>
+                <button class="submit-btn" onclick="finish('c')">Check Page 3</button>
+                <div id="c-ans" class="ans-key"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="listening" class="page">
+        <div class="container">
+            <h2 style="color:var(--primary)">Challenge 4: Listening Lab</h2>
+            <div class="quiz-box">
+                <button onclick="playAudio()" style="padding:20px; width:100%; cursor:pointer; background:var(--primary); color:black; font-weight:bold; border:none; border-radius:10px;">🔊 PLAY AUDIO (REPEATS TWICE)</button>
+                <div style="margin-top:20px;">
+                    <p>1. Destination? <select id="l1"><option>--</option><option>Museum</option><option>Zoo</option><option>Library</option></select></p>
+                    <p>2. Bus time? <select id="l2"><option>--</option><option>9:00</option><option>9:30</option><option>10:15</option></select></p>
+                    <p>3. Cost? <select id="l3"><option>--</option><option>£5</option><option>£8</option><option>Free</option></select></p>
+                    <p>4. Items to bring? <select id="l4"><option>--</option><option>Lunch</option><option>Pens</option><option>Money</option></select></p>
+                    <p>5. Teacher name? <select id="l5"><option>--</option><option>Mr. Smith</option><option>Mrs. Jones</option><option>Mr. Faragalla</option></select></p>
+                    <p>6. Journey? <select id="l6"><option>--</option><option>30 mins</option><option>2 hours</option><option>1 hour</option></select></p>
+                </div>
+                <button class="submit-btn" onclick="finish('l')">Check Page 4</button>
+                <div id="l-ans" class="ans-key"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function celebrate() {
+            for(let i=0; i<80; i++) {
+                let c = document.createElement('div');
+                c.classList.add('confetti');
+                c.style.left = Math.random() * 100 + "vw";
+                c.style.backgroundColor = ["#00f2ff", "#7000ff", "#00ff88"][Math.floor(Math.random()*3)];
+                c.style.animationDuration = (Math.random() * 2 + 1) + "s";
+                document.body.appendChild(c);
+                setTimeout(() => c.remove(), 3000);
+            }
+        }
+
+        function getName() {
+            let n = document.getElementById('userName').value;
+            return n ? n : "Student";
+        }
+
+        function finish(prefix) {
+            let name = getName();
+            celebrate();
+            const keys = {
+                'r': "Excellent work, " + name + "! KEY: 1.Thrill, 2.No ropes, 3.Years, 4.Bird, 5.More popular, 6.Helmet/Pads, 7.Errors are fatal.",
+                'c': "Great story finishing, " + name + "! KEY: 1.trip, 2.book, 3.weather, 4.skiing, 5.walk, 6.wild, 7.meal, 8.tasty, 9.exciting, 10.visit",
+                'l': "Well done on the listening, " + name + "! KEY: 1.Museum, 2.9:30, 3.£5, 4.Lunch, 5.Mrs. Jones, 6.2 hours"
+            };
+            let div = document.getElementById(prefix + '-ans');
+            div.innerHTML = keys[prefix];
+            div.style.display = 'block';
+        }
+
+        const tenses = [
+            {q: "I ___ to school every day.", a: "go", o: ["go", "goes", "going"]},
+            {q: "She ___ a book right now.", a: "is reading", o: ["reads", "is reading", "read"]},
+            {q: "They ___ home last night.", a: "went", o: ["go", "gone", "went"]},
+            {q: "___ you like pizza?", a: "Do", o: ["Do", "Did", "Are"]},
+            {q: "We ___ lunch at 1pm yesterday.", a: "ate", o: ["eat", "eating", "ate"]},
+            {q: "He ___ never visited Italy.", a: "has", o: ["is", "has", "does"]},
+            {q: "Look! It ___.", a: "is raining", o: ["rains", "is raining", "rained"]},
+            {q: "I think I ___ travel next year.", a: "will", o: ["am", "will", "was"]},
+            {q: "They ___ playing when I arrived.", a: "were", o: ["are", "were", "was"]},
+            {q: "___ she have a car?", a: "Does", o: ["Do", "Does", "Is"]}
+        ];
+
+        const tBox = document.getElementById('t-list');
+        tenses.forEach((item, i) => {
+            tBox.innerHTML += `<p>${i+1}. ${item.q}<br><select id="ts${i}"><option>--</option>${item.o.map(opt => `<option>${opt}</option>`).join('')}</select></p>`;
+        });
+
+        function checkTenses() {
+            let name = getName();
+            celebrate();
+            document.getElementById('t-ans').innerHTML = "Fantastic job, " + name + "! You are a Tense Master. <br> Key: " + tenses.map(x=>x.a).join(', ');
+            document.getElementById('t-ans').style.display = 'block';
+        }
+
+        function playAudio() {
+            const text = "Hello class, this is Mrs. Jones. Our trip to the Museum is tomorrow. The bus leaves at 9:30 AM. Cost is five pounds. Bring your lunch. Journey takes two hours.";
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.onend = () => { setTimeout(() => window.speechSynthesis.speak(new SpeechSynthesisUtterance(text)), 1000); };
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>
